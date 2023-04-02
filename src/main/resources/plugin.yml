@@ -1,0 +1,10 @@
+name: Rewards
+version: '${project.version}'
+main: dev.cosmics.rewards.Rewardz
+api-version: 1.19
+commands:
+  rewards:
+    description: gets your current rewards
+  event:
+    description: dsmdsjdfjiksikjfinjdsijudfsaih
+    permission: rewards.events
