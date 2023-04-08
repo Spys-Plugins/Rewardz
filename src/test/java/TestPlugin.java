@@ -1,6 +1,7 @@
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import dev.cosmics.rewards.RewardUser;
 import dev.cosmics.rewards.RewardUserManager;
 import dev.cosmics.rewards.Rewardz;
 import org.junit.After;
@@ -35,28 +36,30 @@ public class TestPlugin {
         server.addPlayer(new PlayerMock(server, "super_cool_spy", uuid));
         assert plugin != null;
         final RewardUserManager manager = plugin.getManager();
-        manager.giveReward(uuid);
-        assert Objects.requireNonNull(manager.get(uuid)).getValue8().size() == 1;
+        final var user = Objects.requireNonNull(manager.get(uuid));
+        user.addReward(RewardUser.RewardType.KILLED_PLAYERS);
+        assert user.getRewards().size() == 1;
     }
 
     @Test
     public void giveAllOf1() {
         final RewardUserManager manager = plugin.getManager();
         createPlayer();
-        manager.addBoss(uuid);
-        manager.addBuilt(uuid);
-        manager.addFished(uuid);
-        manager.addEvent(uuid);
-        manager.addKilledMob(uuid);
-        manager.addKilledPlayer(uuid);
-        manager.addMined(uuid);
-        assert Objects.requireNonNull(manager.get(uuid)).getValue1() == 1;
-        assert Objects.requireNonNull(manager.get(uuid)).getValue2() == 1;
-        assert Objects.requireNonNull(manager.get(uuid)).getValue3() == 1;
-        assert Objects.requireNonNull(manager.get(uuid)).getValue4() == 1;
-        assert Objects.requireNonNull(manager.get(uuid)).getValue5() == 1;
-        assert Objects.requireNonNull(manager.get(uuid)).getValue6() == 1;
-        assert Objects.requireNonNull(manager.get(uuid)).getValue7() == 1;
+        final var user = Objects.requireNonNull(manager.get(uuid));
+        user.add(RewardUser.RewardType.KILLED_PLAYERS, 1);
+        user.add(RewardUser.RewardType.FISHED_FISH, 1);
+        user.add(RewardUser.RewardType.HOSTILES_KILLED, 1);
+        user.add(RewardUser.RewardType.EVENT, 1);
+        user.add(RewardUser.RewardType.BUILT, 1);
+        user.add(RewardUser.RewardType.BOSS, 1);
+        user.add(RewardUser.RewardType.MINED, 1);
+        assert user.getBoss() == 1;
+        assert user.getBuilt() == 1;
+        assert user.getFished() == 1;
+        assert user.getEvent() == 1;
+        assert user.getKilled() == 1;
+        assert user.getHostiles() == 1;
+        assert user.getMined() == 1;
     }
 
     @After

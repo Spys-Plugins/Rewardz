@@ -17,16 +17,23 @@ public final class EventCmd implements CommandExecutor {
     }
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length != 1) {
-            sender.sendMessage("Usage: /event <player> to give them an event stat");
+        if (args.length != 2) {
+            sender.sendMessage("Usage: /event <player> <number> to give them an event stat");
             return true;
         }
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
+            final OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
+            final int number;
+            try {
+                number = Integer.parseInt(args[1]);
+            } catch (NumberFormatException e) {
+                sender.sendMessage("Number must be an integer!");
+                return;
+            }
             //While it is possible for a player to have never played before and need this stat, since it is given out for events, it is VERY unlikely
-            if (player.hasPlayedBefore() || player.isOnline()) {
+            if (player.hasPlayedBefore()) {
                 sender.sendMessage("Giving " + player.getName() + " an event stat");
-                manager.addEvent(player.getUniqueId());
+                manager.get(player.getUniqueId()).add(RewardUser.RewardType.EVENT, number);
             } else {
                 sender.sendMessage("Player not found! Are you sure they have played before?");
             }

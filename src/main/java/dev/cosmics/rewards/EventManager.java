@@ -1,10 +1,7 @@
 package dev.cosmics.rewards;
 
-import dev.dejvokep.boostedyaml.block.implementation.Section;
 import io.lumine.mythic.bukkit.events.MythicMobDeathEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Monster;
@@ -47,7 +44,7 @@ public final class EventManager implements Listener {
         if (!(event.getDamager() instanceof Player p)) return;
         if (!(event.getEntity() instanceof Player damaged)) return;
         if (damaged.getHealth() - event.getFinalDamage() > 0) return;
-        manager.addKilledPlayer(p.getUniqueId());
+        manager.get(p.getUniqueId()).add(RewardUser.RewardType.KILLED_PLAYERS, 1);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -55,29 +52,29 @@ public final class EventManager implements Listener {
         if (!(event.getDamager() instanceof Player p)) return;
         if (!(event.getEntity() instanceof Monster m)) return;
         if (m.getHealth() - event.getFinalDamage() > 0) return;
-        manager.addKilledMob(p.getUniqueId());
+        manager.get(p.getUniqueId()).add(RewardUser.RewardType.HOSTILES_KILLED, 1);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onFish(PlayerFishEvent event) {
         if (event.getState() != PlayerFishEvent.State.CAUGHT_FISH) return;
-        manager.addFished(event.getPlayer().getUniqueId());
+        manager.get(event.getPlayer().getUniqueId()).add(RewardUser.RewardType.FISHED_FISH, 1);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void bossDeath(MythicMobDeathEvent event) {
         if (!(event.getKiller() instanceof Player p)) return;
-        manager.addBoss(p.getUniqueId());
+        manager.get(p.getUniqueId()).add(RewardUser.RewardType.BOSS, 1);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onMined(BlockBreakEvent event) {
-        manager.addMined(event.getPlayer().getUniqueId());
+        manager.get(event.getPlayer().getUniqueId()).add(RewardUser.RewardType.MINED, 1);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlace(BlockPlaceEvent event) {
-        manager.addBuilt(event.getPlayer().getUniqueId());
+        manager.get(event.getPlayer().getUniqueId()).add(RewardUser.RewardType.BUILT, 1);
     }
 
     @EventHandler
@@ -96,10 +93,10 @@ public final class EventManager implements Listener {
         if (plugin.getCfg().getSection("Rewards." + reward) == null) return;
         var playerData = manager.get(p.getUniqueId());
         if (playerData == null) return;
-        if (!playerData.getValue8().contains(reward)) return;
-        playerData.getValue8().remove(reward);
-        System.out.println(PlaceholderAPI.setPlaceholders(p, reward));
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.setPlaceholders(p, reward));
+        if (!playerData.getRewards().contains(reward)) return;
+        playerData.getRewards().remove(reward);
+
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.setPlaceholders(p, reward.split("\\.")[1]));
         p.closeInventory(InventoryCloseEvent.Reason.CANT_USE);
     }
 }

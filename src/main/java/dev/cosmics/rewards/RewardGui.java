@@ -25,13 +25,14 @@ public class RewardGui {
         this.rewardKey = rewardKey;
         var userData = manager.get(player.getUniqueId());
         assert userData != null;
-        inventory = Bukkit.createInventory(null, Math.floorDiv(userData.getValue8().size(), 9) * 9 + 9, Component.text("Rewards"));
+        inventory = Bukkit.createInventory(null, Math.floorDiv(userData.getRewards().size(), 9) * 9 + 9, Component.text("Rewards"));
         addItems(config, userData);
     }
-    private void addItems(YamlDocument config, Ennead<UUID, Integer, Integer, Integer, Integer, Integer, Integer, Integer, List<String>> userData) {
+    private void addItems(YamlDocument config, RewardUser userData) {
         int i = 0;
-        for (String reward : userData.getValue8()) {
+        for (String reward : userData.getRewards()) {
             final var section = config.getSection("Rewards." + reward);
+            if (section == null) continue;
             final var item = new ItemStack(Material.valueOf(section.getString("item").toUpperCase()));
             final var meta = item.getItemMeta();
             assert meta != null;

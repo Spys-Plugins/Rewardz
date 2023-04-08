@@ -35,6 +35,7 @@ public class Rewardz extends JavaPlugin {
         } catch (IOException e) {
             getLogger().severe("Failed to load data file, does the server have access to it");
         }
+        RewardUser.setConfig(config);
         manager = new RewardUserManager(config);
         manager.loadFromConfig(data);
         new EventManager(manager, this, rewardKey);

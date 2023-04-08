@@ -1,12 +1,83 @@
 Rewards:
-  gamemode adventure %player%:
-    Display Name: <rainbow> Quest Reward
-    Lore:
-      - hello
-      - <red> ello
-      -
-      - <green> click to open
-    item: red_stained_glass_pane
+  boss:
+    gamemode adventure %player_name%:
+      Display Name: <rainbow> Quest Reward
+      Lore:
+        - hello
+        - <red> ello
+        -
+        - <green> click to open
+      item: red_stained_glass_pane
+    gamemode survival %player_name%:
+      Display Name: <rainbow> Quest Reward 2
+      Lore:
+        - hello
+        - <red> ello
+        -
+        - <green> click to open
+      item: red_stained_glass_pane
+  killed:
+    gamemode adventure %player_name%:
+      Display Name: <rainbow> Quest Reward
+      Lore:
+        - hello
+        - <red> ello
+        -
+        - <green> click to open
+      item: red_stained_glass_pane
+    gamemode survival %player_name%:
+      Display Name: <rainbow> Quest Reward 2
+      Lore:
+        - hello
+        - <red> ello
+        -
+        - <green> click to open
+      item: red_stained_glass_pane
+  fished:
+    gamemode adventure %player_name%:
+      Display Name: <rainbow> Quest Reward
+      Lore:
+        - hello
+        - <red> ello
+        -
+        - <green> click to open
+      item: red_stained_glass_pane
+  hostiles:
+    gamemode adventure %player_name%:
+      Display Name: <rainbow> Quest Reward
+      Lore:
+        - hello
+        - <red> ello
+        -
+        - <green> click to open
+      item: red_stained_glass_pane
+  event:
+    gamemode adventure %player_name%:
+      Display Name: <rainbow> Quest Reward
+      Lore:
+        - hello
+        - <red> ello
+        -
+        - <green> click to open
+      item: red_stained_glass_pane
+  mined:
+    gamemode adventure %player_name%:
+      Display Name: <rainbow> Quest Reward
+      Lore:
+        - hello
+        - <red> ello
+        -
+        - <green> click to open
+      item: red_stained_glass_pane
+  built:
+    gamemode adventure %player_name%:
+      Display Name: <rainbow> Quest Reward
+      Lore:
+        - hello
+        - <red> ello
+        -
+        - <green> click to open
+      item: red_stained_glass_pane
 Milestones:
   killed:
     - 10

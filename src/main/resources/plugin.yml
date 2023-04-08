@@ -1,6 +1,9 @@
 name: Rewards
 version: '${project.version}'
 main: dev.cosmics.rewards.Rewardz
+libraries:
+  - 'dev.dejvokep:boosted-yaml:1.3.1'
+  - 'org.javatuples:javatuples:1.2'
 api-version: 1.19
 commands:
   rewards:
